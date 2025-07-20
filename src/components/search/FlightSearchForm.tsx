@@ -7,6 +7,7 @@ const styles = {
     direction: { xs: "column", md: "row" } as const,
     alignItems: "center" as const,
     spacing: 2, 
+    width: {xs: "100%"}
   },
 };
 

@@ -4,13 +4,14 @@ import Autocomplete from "@mui/material/Autocomplete";
 import IconButton from "@mui/material/IconButton";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { Top50Airports } from "../../data/airports";
+import { StackCommonStyles } from "./commonStyles";
 
 const styles = {
 
   Stack: {
-    spacing: 0,
-    sx: { width: { xs: "100%", md: "50%" } },
-    alignItems: "center",
+    ...{
+      ...StackCommonStyles,
+    },
   },
   Autocomplete: {
     sx: { flex: 1 },
@@ -51,7 +52,7 @@ const styles = {
 
 export const LocationSelector = () => {
   return (
-    <Stack {...styles.Stack} direction="row">
+    <Stack {...styles.Stack}>
       <Autocomplete
         {...styles.Autocomplete}
         freeSolo
