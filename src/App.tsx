@@ -1,10 +1,11 @@
-import { LocationSelector } from "./components/search/LocationSelector"
+import { FlightSearchForm } from "./components/search/FlightSearchForm"
+
 
 function App() {
 
   return (
     <>
-      <LocationSelector/>
+      <FlightSearchForm/>
     </>
   )
 }

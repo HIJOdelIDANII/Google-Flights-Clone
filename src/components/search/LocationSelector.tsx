@@ -4,9 +4,9 @@ import Autocomplete from "@mui/material/Autocomplete";
 import IconButton from "@mui/material/IconButton";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { Top50Airports } from "../../data/airports";
-import { red } from "@mui/material/colors";
 
 const styles = {
+
   Stack: {
     spacing: 0,
     sx: { width: { xs: "100%", md: "50%" } },
@@ -18,7 +18,7 @@ const styles = {
   TextFieldWhereFrom: {
     sx: {
       "& .MuiOutlinedInput-root": {
-        borderRight: "none", // removes border between input and icon
+        borderRight: "none", 
       },
     },
   },
@@ -30,7 +30,9 @@ const styles = {
     },
   },
   IconButton: {
+    disableRipple: true,
     sx: {
+      zIndex: 1,
       margin: "0px",
       width: 8,
       padding: "0px",
@@ -41,7 +43,8 @@ const styles = {
       backgroundColor: "white",
       borderRadius: "50%",
       padding: "4px",
-      border: `1px solid`,
+      border: "1px solid",
+      borderColor: "primary", 
     },
   },
 };
