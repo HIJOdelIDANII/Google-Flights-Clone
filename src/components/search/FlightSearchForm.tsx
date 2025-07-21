@@ -4,6 +4,7 @@ import { DateSelector } from "./DateSelector";
 import { TripTypeSelector } from "./TripTypeSelector";
 import { PassengersSelector } from "./PassengersSelector";
 import { FlightClassSelector } from "./FlightClassSelector";
+import SearchButton from "./SearchButton";
 
 const styles = {
   StackLocationDateSelectors: {
@@ -16,7 +17,8 @@ const styles = {
     direction: "row" as const,
     justifyContent: { xs: "center", sm: "center", md: "flex-start" } as const,
     alignItems: "center" as const,
-    spacing: 2,
+    spacing: 1, // Reduced spacing between buttons like Google
+    mb: 2, // Add margin bottom
   },
 };
 
@@ -32,6 +34,7 @@ export const FlightSearchForm = () => {
         <LocationSelector />
         <DateSelector />
       </Stack>
+      <SearchButton />
     </Box>
   );
 };

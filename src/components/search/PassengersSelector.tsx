@@ -15,7 +15,7 @@ import {
 } from "@mui/icons-material";
 import { useSearch } from "../../hooks/useSearch";
 import type { PassengersDataInterface } from "../../types/searchData";
-import { passengersStyles } from "./commonStyles";
+import { passengersStyles } from "./styles";
 
 const passengerTypes = [
   {
@@ -119,7 +119,23 @@ export const PassengersSelector = () => {
     <>
       <Button
         onClick={handleClick}
-        sx={passengersStyles.triggerButton}
+        sx={{
+          ...passengersStyles.triggerButton,
+          ...(isOpen && {
+            backgroundColor: "#e8f0fe",
+            "&::after": {
+              content: '""',
+              position: "absolute",
+              bottom: 0,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "80%",
+              height: "2px",
+              backgroundColor: "#1a73e8",
+              borderRadius: "1px",
+            },
+          }),
+        }}
         startIcon={<PersonOutline />}
         endIcon={<KeyboardArrowDown />}
       >
@@ -170,7 +186,7 @@ export const PassengersSelector = () => {
             </Box>
           ))}
 
-          <Divider sx={{ borderColor: "#f1f3f4" }} />
+          
 
           <Box sx={passengersStyles.actionsContainer}>
             <Button onClick={handleClose} sx={passengersStyles.cancelButton}>

@@ -4,10 +4,10 @@ import Autocomplete from "@mui/material/Autocomplete";
 import IconButton from "@mui/material/IconButton";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { Top50Airports } from "../../data/airports";
-import { StackCommonStyles } from "./commonStyles";
+import { StackCommonStyles } from "./styles";
+import { useSearch } from "../../hooks/useSearch";
 
 const styles = {
-
   Stack: {
     ...{
       ...StackCommonStyles,
@@ -19,7 +19,7 @@ const styles = {
   TextFieldWhereFrom: {
     sx: {
       "& .MuiOutlinedInput-root": {
-        borderRight: "none", 
+        borderRight: "none",
       },
     },
   },
@@ -37,6 +37,7 @@ const styles = {
       margin: "0px",
       width: 8,
       padding: "0px",
+      cursor: "pointer",
     },
   },
   SwapHorizIcon: {
@@ -45,12 +46,40 @@ const styles = {
       borderRadius: "50%",
       padding: "4px",
       border: "1px solid",
-      borderColor: "primary", 
+      borderColor: "primary",
+      transition: "all 0.2s ease",
+      "&:hover": {
+        backgroundColor: "#f1f3f4",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
+      },
     },
   },
 };
 
 export const LocationSelector = () => {
+  const { searchData, updateSearchData } = useSearch();
+
+  const handleSwap = () => {
+    if (searchData.tripType === "One-way") return;
+
+    updateSearchData({
+      departureLocation: searchData.arrivationLocation,
+      arrivationLocation: searchData.departureLocation,
+    });
+  };
+
+  const handleDepartureChange = (event: any, newValue: string | null) => {
+    if (newValue) {
+      updateSearchData({ departureLocation: newValue });
+    }
+  };
+
+  const handleArrivalChange = (event: any, newValue: string | null) => {
+    if (newValue) {
+      updateSearchData({ arrivationLocation: newValue });
+    }
+  };
+
   return (
     <Stack {...styles.Stack}>
       <Autocomplete
@@ -58,6 +87,8 @@ export const LocationSelector = () => {
         freeSolo
         id="WhereFrom"
         disableClearable
+        value={searchData.departureLocation || ""}
+        onChange={handleDepartureChange}
         options={Top50Airports.map((option) => option.airport_name)}
         renderInput={(params) => (
           <TextField
@@ -67,7 +98,11 @@ export const LocationSelector = () => {
           />
         )}
       />
-      <IconButton {...styles.IconButton}>
+      <IconButton
+        {...styles.IconButton}
+        onClick={handleSwap}
+        disabled={searchData.tripType === "One-way"}
+      >
         <SwapHorizIcon {...styles.SwapHorizIcon} />
       </IconButton>
       <Autocomplete
@@ -75,6 +110,8 @@ export const LocationSelector = () => {
         freeSolo
         id="WhereTo"
         disableClearable
+        value={searchData.arrivationLocation || ""}
+        onChange={handleArrivalChange}
         options={Top50Airports.map((option) => option.airport_name)}
         renderInput={(params) => (
           <TextField

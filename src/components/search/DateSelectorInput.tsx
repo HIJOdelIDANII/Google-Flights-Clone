@@ -8,14 +8,8 @@ import { DateCalendar } from "@mui/x-date-pickers";
 import { useSearch } from "../../hooks/useSearch";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import { useMediaQuery, useTheme } from "@mui/material";
+import { dateSelectorStyles } from "./styles";
 
-const styles = {
-  DateField: {
-    sx: {
-      flex: 1,
-    },
-  },
-};
 interface DateSelectorInputProps {
   dateValue: Dayjs | null;
   label: string;
@@ -28,6 +22,7 @@ export const DateSelectorInput = (props: DateSelectorInputProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
     props.setOpenCalendar(true);
@@ -56,7 +51,7 @@ export const DateSelectorInput = (props: DateSelectorInputProps) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateField
-        {...styles.DateField}
+        {...dateSelectorStyles.DateField}
         onClick={handleClick}
         label={props.label}
         format="LL"
@@ -69,23 +64,12 @@ export const DateSelectorInput = (props: DateSelectorInputProps) => {
         open={props.openCalendar}
         anchorEl={anchorEl}
         placement={isMobile ? "bottom-start" : "bottom"}
-        sx={{
-          width: isMobile ? "100vw" : "auto",
-          left: isMobile ? "0 !important" : "auto",
-          zIndex: theme.zIndex.modal,
-        }}
+        sx={dateSelectorStyles.popper(isMobile, theme)}
       >
         <ClickAwayListener onClickAway={handleClickAway}>
-          <div
-            style={{
-              width: isMobile ? "100vw" : "auto",
-              backgroundColor: "white",
-              boxShadow: theme.shadows[8],
-              borderRadius: isMobile ? 0 : 8,
-            }}
-          >
+          <div style={dateSelectorStyles.popperContent(isMobile)}>
             <DateCalendar
-              sx={{ width: "100%" }}
+              sx={dateSelectorStyles.calendar}
               value={props.dateValue}
               onChange={(value) => handleChangeCalendar(value)}
             />

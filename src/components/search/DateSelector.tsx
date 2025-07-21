@@ -1,5 +1,5 @@
 import Stack from "@mui/material/Stack";
-import { StackCommonStyles } from "./commonStyles";
+import { StackCommonStyles } from "./styles";
 
 import { DateSelectorInput } from "./DateSelectorInput";
 import { useSearch } from "../../hooks/useSearch";
