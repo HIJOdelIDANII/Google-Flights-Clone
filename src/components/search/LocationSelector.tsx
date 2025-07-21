@@ -35,8 +35,9 @@ const styles = {
     sx: {
       zIndex: 1,
       margin: "0px",
-      width: 8,
-      padding: "0px",
+      width: 4,
+      height: 0,
+      padding: "8px",
       cursor: "pointer",
     },
   },
