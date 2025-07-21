@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, type ReactNode } from "react";
+import { useState, createContext, type ReactNode, useEffect } from "react";
 import dayjs from "dayjs";
 import type { SearchDataInterface } from "../types/searchData";
 
@@ -31,13 +31,20 @@ export const searchContext = createContext<SearchContextType | undefined>(
 export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   const [searchData, setSearchData] =
     useState<SearchDataInterface>(defaultSearchData);
+  useEffect(() => {
+    console.log("Search data changed:", searchData);
+  }, [searchData]);
 
   const updateSearchData = (data: Partial<SearchDataInterface>) => {
     setSearchData((prev) => ({
       ...prev,
       ...data,
-      departureDate: data.departureDate ? dayjs(data.departureDate) : null,
-      returnDate: data.returnDate ? dayjs(data.returnDate) : null,
+      ...(data.departureDate !== undefined && {
+        departureDate: data.departureDate ? dayjs(data.departureDate) : null,
+      }),
+      ...(data.returnDate !== undefined && {
+        returnDate: data.returnDate ? dayjs(data.returnDate) : null,
+      }),
     }));
   };
   const resetSearchData = () => {
