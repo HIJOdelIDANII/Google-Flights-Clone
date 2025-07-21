@@ -1,11 +1,11 @@
-import { FlightSearchForm } from "./components/search/FlightSearchForm";
 import { SearchProvider } from "./context/SearchContext";
+import { HomePage } from "./pages/HomePage";
 
 function App() {
   return (
     <>
       <SearchProvider>
-        <FlightSearchForm />
+        <HomePage />
       </SearchProvider>
     </>
   );
