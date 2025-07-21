@@ -1,21 +1,37 @@
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { LocationSelector } from "./LocationSelector";
 import { DateSelector } from "./DateSelector";
+import { TripTypeSelector } from "./TripTypeSelector";
+import { PassengersSelector } from "./PassengersSelector";
+import { FlightClassSelector } from "./FlightClassSelector";
 
 const styles = {
-  Stack: {
+  StackLocationDateSelectors: {
     direction: { xs: "column", md: "row" } as const,
     alignItems: "center" as const,
-    spacing: 2, 
-    width: {xs: "100%"}
+    spacing: 2,
+    width: { xs: "100%" },
+  },
+  StackOptionsSeclectors: {
+    direction: "row" as const,
+    justifyContent: { xs: "center", sm: "center", md: "flex-start" } as const,
+    alignItems: "center" as const,
+    spacing: 2,
   },
 };
 
 export const FlightSearchForm = () => {
   return (
-    <Stack {...styles.Stack}>
-      <LocationSelector />
-      <DateSelector />
-    </Stack>
+    <Box>
+      <Stack {...styles.StackOptionsSeclectors}>
+        <TripTypeSelector />
+        <PassengersSelector />
+        <FlightClassSelector />
+      </Stack>
+      <Stack {...styles.StackLocationDateSelectors}>
+        <LocationSelector />
+        <DateSelector />
+      </Stack>
+    </Box>
   );
 };

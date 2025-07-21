@@ -1,8 +1,8 @@
 import { Dayjs } from "dayjs";
 
-type FlightClass = "Economy" | "Premium economy" | "Business" | "First";
-type TripType = "One-way" | "Round-trip" | "Multi-city";
-interface PassengersDataInterface {
+export type FlightClass = "Economy" | "Premium economy" | "Business" | "First";
+export type TripType = "One-way" | "Round-trip" | "Multi-city";
+export interface PassengersDataInterface {
   adults: number;
   children: number;
   infants: number;

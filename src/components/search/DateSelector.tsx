@@ -8,11 +8,6 @@ const styles = {
   Stack: {
     ...StackCommonStyles,
   },
-  DateFields: {
-    sx: {
-      flex: 1,
-    },
-  },
 };
 
 export const DateSelector = () => {
