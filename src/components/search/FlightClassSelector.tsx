@@ -8,19 +8,19 @@ import type { FlightClass } from "../../types/searchData";
 const flightClassOptions = [
   {
     label: "Economy",
-    value: "Economy" as FlightClass,
+    value: "economy" as FlightClass,
   },
   {
     label: "Premium economy",
-    value: "Premium economy" as FlightClass,
+    value: "premium_economy" as FlightClass,
   },
   {
     label: "Business",
-    value: "Business" as FlightClass,
+    value: "business" as FlightClass,
   },
   {
     label: "First",
-    value: "First" as FlightClass,
+    value: "first" as FlightClass,
   },
 ];
 

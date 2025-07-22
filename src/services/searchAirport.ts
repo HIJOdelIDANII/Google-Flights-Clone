@@ -1,12 +1,12 @@
 import { commonGetRequest, type CommonGetRequestOptions } from "./api";
 
 interface SearchAirportQueryParams {
-  query: string; //Name of the location where the Airport is situated.
+  query: string;
   locale: string;
 }
 
-interface AirportSearchResult {
-  skyId: number;
+export interface AirportSearchResult {
+  skyId: string; // Changed to string to match API response
   entityId: number;
   flightPlaceType: string;
   localizedName: string;
@@ -26,23 +26,37 @@ const searchAiportOptions = (query: string): CommonGetRequestOptions => {
 export async function searchAirport(
   query: string
 ): Promise<AirportSearchResult[]> {
-  const options = searchAiportOptions(query);
-  const response = await commonGetRequest(options);
-  console.log(response);
-  const data = response.data;
+  try {
+    const options = searchAiportOptions(query);
+    const response = await commonGetRequest(options);
+    console.log("API Response:", response);
 
-  const airportResults: AirportSearchResult[] = data
-    .filter(
-      (item: any) => item.relevantFlightParams.flightPlaceType === "AIRPORT"
-    )
-    .map(
-      (item: any): AirportSearchResult => ({
-        skyId: item.relevantFlightParams.skyId,
-        entityId: item.relevantFlightParams.entityId,
-        flightPlaceType: item.relevantFlightParams.flightPlaceType,
-        localizedName: item.relevantFlightParams.localizedName,
+    if (!response.data || !Array.isArray(response.data)) {
+      console.warn("Invalid response structure:", response);
+      return [];
+    }
+
+    const data = response.data;
+
+    const airportResults: AirportSearchResult[] = data
+      .filter((item: any) => {
+        const flightParams = item.navigation?.relevantFlightParams;
+        return flightParams && flightParams.flightPlaceType === "AIRPORT";
       })
-    );
+      .map((item: any): AirportSearchResult => {
+        const flightParams = item.navigation.relevantFlightParams;
+        return {
+          skyId: flightParams.skyId, // Keep as string
+          entityId: parseInt(flightParams.entityId),
+          flightPlaceType: flightParams.flightPlaceType,
+          localizedName: flightParams.localizedName,
+        };
+      });
 
-  return airportResults;
+    console.log("Processed airport results:", airportResults);
+    return airportResults;
+  } catch (error) {
+    console.error("Error in searchAirport:", error);
+    throw error;
+  }
 }

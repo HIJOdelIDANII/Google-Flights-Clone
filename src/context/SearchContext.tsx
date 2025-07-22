@@ -1,11 +1,9 @@
-import { useState, createContext, type ReactNode, useEffect } from "react";
-import dayjs from "dayjs";
+import { useState, createContext, type ReactNode } from "react";
 import type { SearchDataInterface } from "../types/searchData";
 
 export interface SearchContextType {
   searchData: SearchDataInterface;
   updateSearchData: (data: Partial<SearchDataInterface>) => void;
-  resetSearchData: () => void;
 }
 
 const defaultSearchData: SearchDataInterface = {
@@ -18,9 +16,12 @@ const defaultSearchData: SearchDataInterface = {
     children: 0,
     infants: 0,
   },
-  tripType: "One-way",
-  flightClass: "Economy",
+  tripType: "Round-trip",
+  flightClass: "economy",
+  departureAirportData: null,
+  arrivalAirportData: null,
 };
+
 interface SearchProviderProps {
   children: ReactNode;
 }
@@ -28,34 +29,18 @@ interface SearchProviderProps {
 export const searchContext = createContext<SearchContextType | undefined>(
   undefined
 );
+
 export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   const [searchData, setSearchData] =
     useState<SearchDataInterface>(defaultSearchData);
-  useEffect(() => {
-    console.log("Search data changed:", searchData);
-  }, [searchData]);
 
   const updateSearchData = (data: Partial<SearchDataInterface>) => {
-    setSearchData((prev) => ({
-      ...prev,
-      ...data,
-      ...(data.departureDate !== undefined && {
-        departureDate: data.departureDate ? dayjs(data.departureDate) : null,
-      }),
-      ...(data.returnDate !== undefined && {
-        returnDate: data.returnDate ? dayjs(data.returnDate) : null,
-      }),
-    }));
+    setSearchData((prev) => ({ ...prev, ...data }));
   };
-  const resetSearchData = () => {
-    setSearchData(defaultSearchData);
-  };
-  const value: SearchContextType = {
-    searchData,
-    updateSearchData,
-    resetSearchData,
-  };
+
   return (
-    <searchContext.Provider value={value}>{children}</searchContext.Provider>
+    <searchContext.Provider value={{ searchData, updateSearchData }}>
+      {children}
+    </searchContext.Provider>
   );
 };

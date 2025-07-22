@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import CheckIcon from "@mui/icons-material/Check";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useSearch } from "../../hooks/useSearch";
@@ -25,11 +24,6 @@ const tripOptions = [
     label: "One way",
     value: "One-way" as TripType,
     icon: <FlightTakeoffIcon fontSize="small" sx={{ color: "#5f6368" }} />,
-  },
-  {
-    label: "Multi-city",
-    value: "Multi-city" as TripType,
-    icon: <TravelExploreIcon fontSize="small" sx={{ color: "#5f6368" }} />,
   },
 ];
 

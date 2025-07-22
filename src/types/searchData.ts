@@ -1,7 +1,7 @@
 import { Dayjs } from "dayjs";
 
-export type FlightClass = "Economy" | "Premium economy" | "Business" | "First";
-export type TripType = "One-way" | "Round-trip" | "Multi-city";
+export type FlightClass = "economy" | "premium_economy" | "business" | "first";
+export type TripType = "One-way" | "Round-trip";
 export interface PassengersDataInterface {
   adults: number;
   children: number;
@@ -9,11 +9,13 @@ export interface PassengersDataInterface {
 }
 
 export interface SearchDataInterface {
-  departureDate: Dayjs | null;
-  returnDate: Dayjs | null;
+  tripType: TripType;
   departureLocation: string | null;
   arrivationLocation: string | null;
+  departureDate: Date | null;
+  returnDate: Date | null;
   passengers: PassengersDataInterface;
-  tripType: TripType;
   flightClass: FlightClass;
+  departureAirportData?: any;
+  arrivalAirportData?: any;
 }

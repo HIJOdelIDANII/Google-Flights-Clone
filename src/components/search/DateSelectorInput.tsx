@@ -1,81 +1,52 @@
-import { Dayjs } from "dayjs";
+import React from "react";
+import TextField from "@mui/material/TextField";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateField } from "@mui/x-date-pickers/DateField";
-import { useState } from "react";
-import Popper from "@mui/material/Popper";
-import { DateCalendar } from "@mui/x-date-pickers";
-import { useSearch } from "../../hooks/useSearch";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import { useMediaQuery, useTheme } from "@mui/material";
-import { dateSelectorStyles } from "./styles";
+import dayjs, { Dayjs } from "dayjs";
 
 interface DateSelectorInputProps {
-  dateValue: Dayjs | null;
-  label: string;
-  setOpenCalendar: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenCalendar: (isOpen: boolean) => void;
   openCalendar: boolean;
+  dateValue: Date | null;
+  onDateChange: (date: Date | null) => void;
+  label: string;
+  minDate?: Date;
 }
 
-export const DateSelectorInput = (props: DateSelectorInputProps) => {
-  const { updateSearchData } = useSearch();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-    props.setOpenCalendar(true);
+export const DateSelectorInput: React.FC<DateSelectorInputProps> = ({
+  setOpenCalendar,
+  openCalendar,
+  dateValue,
+  onDateChange,
+  label,
+  minDate,
+}) => {
+  const handleDateChange = (newValue: Dayjs | null) => {
+    onDateChange(newValue ? newValue.toDate() : null);
   };
 
-  const handleChangeCalendar = (newValue: Dayjs | null) => {
-    if (newValue) {
-      updateSearchData(
-        props.label === "Departure"
-          ? { departureDate: newValue }
-          : { returnDate: newValue }
-      );
-      props.setOpenCalendar(false);
-      setAnchorEl(null);
-    }
-  };
-
-  const handleClickAway = () => {
-    props.setOpenCalendar(false);
-    setAnchorEl(null);
-  };
-
-  const canBeOpen = props.openCalendar && Boolean(anchorEl);
-  const id = canBeOpen ? `transition-popper-${props.label}` : undefined;
+  // Convert Date to Dayjs safely
+  const value = dateValue ? dayjs(dateValue) : null;
+  const min = minDate ? dayjs(minDate) : dayjs();
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateField
-        {...dateSelectorStyles.DateField}
-        onClick={handleClick}
-        label={props.label}
-        format="LL"
-        value={props.dateValue}
-        onChange={() => {}}
+      <DatePicker
+        label={label}
+        value={value}
+        onChange={handleDateChange}
+        open={openCalendar}
+        onOpen={() => setOpenCalendar(true)}
+        onClose={() => setOpenCalendar(false)}
+        minDate={min}
+        sx={{
+          flex: 1,
+          "& .MuiOutlinedInput-root": {
+            borderRadius: label === "Departure" ? "8px 0 0 8px" : "0 8px 8px 0",
+          },
+        }}
       />
-
-      <Popper
-        id={id}
-        open={props.openCalendar}
-        anchorEl={anchorEl}
-        placement={isMobile ? "bottom-start" : "bottom"}
-        sx={dateSelectorStyles.popper(isMobile, theme)}
-      >
-        <ClickAwayListener onClickAway={handleClickAway}>
-          <div style={dateSelectorStyles.popperContent(isMobile)}>
-            <DateCalendar
-              sx={dateSelectorStyles.calendar}
-              value={props.dateValue}
-              onChange={(value) => handleChangeCalendar(value)}
-            />
-          </div>
-        </ClickAwayListener>
-      </Popper>
     </LocalizationProvider>
   );
 };
