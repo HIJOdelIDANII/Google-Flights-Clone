@@ -25,7 +25,6 @@ export const DateSelectorInput: React.FC<DateSelectorInputProps> = ({
     onDateChange(newValue ? newValue.toDate() : null);
   };
 
-  // Convert Date to Dayjs safely
   const value = dateValue ? dayjs(dateValue) : null;
   const min = minDate ? dayjs(minDate) : dayjs();
 

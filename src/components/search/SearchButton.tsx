@@ -37,7 +37,6 @@ const SearchButton: React.FC = () => {
     }
 
     try {
-      // Get airport data from the selected airports
       const departureAirport = searchData.departureAirportData;
       const arrivalAirport = searchData.arrivalAirportData;
 
@@ -59,7 +58,6 @@ const SearchButton: React.FC = () => {
 
       await search(searchData, originData, destinationData);
 
-      // Navigate to results page with search data
       navigate("/results", {
         state: {
           searchData,

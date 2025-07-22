@@ -126,7 +126,7 @@ export const LocationSelector = () => {
     });
   };
 
-  const handleDepartureChange = (event: any, newValue: any) => {
+  const handleDepartureChange = (_: any, newValue: any) => {
     console.log("Departure change:", newValue);
 
     if (newValue) {
@@ -146,7 +146,7 @@ export const LocationSelector = () => {
     }
   };
 
-  const handleArrivalChange = (event: any, newValue: any) => {
+  const handleArrivalChange = (_: any, newValue: any) => {
     console.log("Arrival change:", newValue);
 
     if (newValue) {
@@ -189,7 +189,6 @@ export const LocationSelector = () => {
     return "No airports found";
   };
 
-  // Get the current value for autocomplete
   const getDepartureValue = () => {
     return (
       searchData.departureAirportData || searchData.departureLocation || null
@@ -211,7 +210,7 @@ export const LocationSelector = () => {
         options={departureOptions}
         value={getDepartureValue()}
         onChange={handleDepartureChange}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(_, newInputValue) => {
           setDepartureInputValue(newInputValue);
         }}
         getOptionLabel={(option) => {
@@ -269,7 +268,7 @@ export const LocationSelector = () => {
         options={arrivalOptions}
         value={getArrivalValue()}
         onChange={handleArrivalChange}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(_, newInputValue) => {
           setArrivalInputValue(newInputValue);
         }}
         getOptionLabel={(option) => {

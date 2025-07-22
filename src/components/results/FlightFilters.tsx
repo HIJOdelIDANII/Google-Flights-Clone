@@ -83,7 +83,6 @@ export const FlightFilters: React.FC<FlightFiltersProps> = ({
         Filters
       </Typography>
 
-
       <Accordion
         defaultExpanded
         sx={{
@@ -301,7 +300,7 @@ export const FlightFilters: React.FC<FlightFiltersProps> = ({
           <Box sx={{ px: 1 }}>
             <Slider
               value={priceRange}
-              onChange={(e, newValue) => {
+              onChange={(_, newValue) => {
                 setPriceRange(newValue as number[]);
                 onFiltersChange({ priceRange: newValue });
               }}
@@ -503,7 +502,7 @@ export const FlightFilters: React.FC<FlightFiltersProps> = ({
             <Box sx={{ px: 1 }}>
               <Slider
                 value={durationRange}
-                onChange={(e, newValue) => {
+                onChange={(_, newValue) => {
                   setDurationRange(newValue as number[]);
                   onFiltersChange({ durationRange: newValue });
                 }}

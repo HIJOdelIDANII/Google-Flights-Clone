@@ -9,7 +9,6 @@ interface AirportOption {
   label: string;
 }
 
-// Simple in-memory cache
 const cache = new Map<string, AirportOption[]>();
 const CACHE_EXPIRY = 5 * 60 * 1000; // 5 minutes
 const cacheTimestamps = new Map<string, number>();

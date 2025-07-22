@@ -27,7 +27,7 @@ export const SortOptions: React.FC<SortOptionsProps> = ({
     >
       <Tabs
         value={selectedSort}
-        onChange={(e, value) => onSortChange(value)}
+        onChange={(_, value) => onSortChange(value)}
         sx={{
           minHeight: 48,
           "& .MuiTabs-flexContainer": {
