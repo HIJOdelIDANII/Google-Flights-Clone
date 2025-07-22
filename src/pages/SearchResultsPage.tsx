@@ -5,6 +5,7 @@ import { ResultsHeader } from "../components/results/ResultsHeader";
 import { SortOptions } from "../components/results/SortOptions";
 import { FlightFilters } from "../components/results/FlightFilters";
 import { FlightResults } from "../components/results/FlightResults";
+import { MockDataNotification } from "../components/common/MockDataNotification";
 import { useFlightSearch } from "../hooks/useFlightSearch";
 import type { SearchDataInterface } from "../types/searchData";
 
@@ -14,6 +15,7 @@ export const SearchResultsPage: React.FC = () => {
   const { search, loading, results, error, filterStats, totalResults } =
     useFlightSearch();
   const [selectedSort, setSelectedSort] = useState("best");
+  const [showMockNotification, setShowMockNotification] = useState(false);
 
   // Get search data from navigation state
   const { searchData, originData, destinationData } = location.state || {};
@@ -26,27 +28,39 @@ export const SearchResultsPage: React.FC = () => {
     }
 
     // Perform search
-    search(searchData, originData, destinationData);
+    const performSearch = async () => {
+      try {
+        await search(searchData, originData, destinationData);
+      } catch (err) {
+        // If search fails and we get mock data, show notification
+        setShowMockNotification(true);
+      }
+    };
+
+    performSearch();
   }, [searchData, originData, destinationData, navigate, search]);
 
   const handleSortChange = (sort: string) => {
     setSelectedSort(sort);
-    // In a real app, you'd re-fetch data with new sort
     console.log("Sort changed to:", sort);
   };
 
   const handleFiltersChange = (filters: any) => {
-    // In a real app, you'd re-fetch data with new filters
     console.log("Filters changed:", filters);
   };
 
   if (!searchData) {
-    return null; // Will redirect in useEffect
+    return null;
   }
 
   return (
     <Container maxWidth="xl" sx={{ py: 3 }}>
       <ResultsHeader searchData={searchData} />
+
+      <MockDataNotification
+        show={showMockNotification}
+        message="API limit reached. Showing sample flight data for demonstration."
+      />
 
       <SortOptions
         selectedSort={selectedSort}

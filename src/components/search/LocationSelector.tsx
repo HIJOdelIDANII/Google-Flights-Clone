@@ -73,7 +73,6 @@ export const LocationSelector = () => {
   const debouncedDepartureQuery = useDebounce(departureInputValue, 300);
   const debouncedArrivalQuery = useDebounce(arrivalInputValue, 300);
 
-  // Search for departure locations
   useEffect(() => {
     const searchDeparture = async () => {
       if (debouncedDepartureQuery && debouncedDepartureQuery.length >= 2) {
@@ -95,7 +94,6 @@ export const LocationSelector = () => {
     searchDeparture();
   }, [debouncedDepartureQuery, searchLocations]);
 
-  // Search for arrival locations
   useEffect(() => {
     const searchArrival = async () => {
       if (debouncedArrivalQuery && debouncedArrivalQuery.length >= 2) {
@@ -120,7 +118,6 @@ export const LocationSelector = () => {
   const handleSwap = () => {
     if (searchData.tripType === "One-way") return;
 
-    // Swap the airport data as well
     updateSearchData({
       departureLocation: searchData.arrivationLocation,
       arrivationLocation: searchData.departureLocation,

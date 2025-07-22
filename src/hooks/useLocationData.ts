@@ -1,10 +1,10 @@
 import { useState, useCallback } from "react";
 import { searchAirport } from "../services/searchAirport";
+import { searchMockLocations } from "../data/mockData";
 
 interface AirportOption {
-  skyId: string; // Changed to string
+  skyId: string;
   entityId: number;
-  flightPlaceType: string;
   localizedName: string;
   label: string;
 }
@@ -40,6 +40,7 @@ export const useLocationData = () => {
       setError(null);
 
       try {
+        console.log("Attempting API location search for:", query);
         const results = await searchAirport(query);
         const formattedOptions: AirportOption[] = results.map((result) => ({
           ...result,
@@ -49,19 +50,32 @@ export const useLocationData = () => {
         // Update cache
         cache.set(cacheKey, formattedOptions);
         cacheTimestamps.set(cacheKey, now);
-        console.log("Results cached for:", query, formattedOptions);
+        console.log("API search successful, results cached for:", query);
 
         return formattedOptions;
       } catch (err: any) {
-        console.error("Airport search error:", err);
+        console.warn(
+          "API location search failed, falling back to mock data:",
+          err.message
+        );
 
-        if (err.response?.status === 429) {
-          setError("Rate limit exceeded. Please try again later.");
-        } else {
-          setError("Failed to search airports");
-        }
+        // Fall back to mock data
+        const mockResults = searchMockLocations(query);
+        const formattedMockOptions: AirportOption[] = mockResults.map(
+          (result) => ({
+            ...result,
+            label: result.localizedName,
+          })
+        );
 
-        return [];
+        // Cache mock results too
+        cache.set(cacheKey, formattedMockOptions);
+        cacheTimestamps.set(cacheKey, now);
+
+        console.info("Using mock location data for:", query);
+        setError(null); // Don't show error since we have fallback data
+
+        return formattedMockOptions;
       } finally {
         setLoading(false);
       }

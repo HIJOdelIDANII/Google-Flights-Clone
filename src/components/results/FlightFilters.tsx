@@ -8,13 +8,10 @@ import {
   FormControlLabel,
   Checkbox,
   Slider,
-  Chip,
   FormGroup,
   Avatar,
   List,
   ListItem,
-  ListItemAvatar,
-  ListItemText,
   Divider,
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
@@ -86,7 +83,7 @@ export const FlightFilters: React.FC<FlightFiltersProps> = ({
         Filters
       </Typography>
 
-      {/* Stops Filter */}
+
       <Accordion
         defaultExpanded
         sx={{
@@ -270,7 +267,6 @@ export const FlightFilters: React.FC<FlightFiltersProps> = ({
 
       <Divider sx={{ my: 2, borderColor: "#e8eaed" }} />
 
-      {/* Price Filter */}
       <Accordion
         defaultExpanded
         sx={{
@@ -348,8 +344,6 @@ export const FlightFilters: React.FC<FlightFiltersProps> = ({
       </Accordion>
 
       <Divider sx={{ my: 2, borderColor: "#e8eaed" }} />
-
-      {/* Airlines Filter */}
       {filterStats.carriers && filterStats.carriers.length > 0 && (
         <>
           <Accordion
@@ -475,7 +469,6 @@ export const FlightFilters: React.FC<FlightFiltersProps> = ({
         </>
       )}
 
-      {/* Duration Filter */}
       {filterStats.duration && (
         <Accordion
           sx={{
