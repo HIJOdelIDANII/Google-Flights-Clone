@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   searchFlights,
-  type SearchFlightsResponse,
   type FlightItinerary,
 } from "../services/searchFlights";
 import type { SearchDataInterface } from "../types/searchData";
@@ -54,20 +53,18 @@ export const useFlightSearch = () => {
         "API search failed, falling back to mock data:",
         error.message
       );
-
-      // Fall back to mock data
       setState({
         loading: false,
         results: mockFlightResults.flights.map((flight: any) => ({
           ...flight,
-          legs: flight.legs ?? [flight], // Ensure 'legs' property exists
+          legs: flight.legs ?? [flight], 
         })),
-        error: null, // Don't show error since we have fallback data
+        error: null, 
         filterStats: mockFlightResults.filterStats,
         totalResults: mockFlightResults.totalResults,
       });
 
-      // Optionally show a subtle notification that mock data is being used
+      
       console.info("Using mock flight data due to API unavailability");
 
       return {

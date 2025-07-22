@@ -61,7 +61,7 @@ const styles = {
 
 export const LocationSelector = () => {
   const { searchData, updateSearchData } = useSearch();
-  const { loading, searchLocations } = useLocationData();
+  const { searchLocations } = useLocationData();
 
   const [departureInputValue, setDepartureInputValue] = useState("");
   const [arrivalInputValue, setArrivalInputValue] = useState("");

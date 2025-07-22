@@ -7,7 +7,6 @@ import { FlightFilters } from "../components/results/FlightFilters";
 import { FlightResults } from "../components/results/FlightResults";
 import { MockDataNotification } from "../components/common/MockDataNotification";
 import { useFlightSearch } from "../hooks/useFlightSearch";
-import type { SearchDataInterface } from "../types/searchData";
 
 export const SearchResultsPage: React.FC = () => {
   const location = useLocation();
@@ -17,22 +16,18 @@ export const SearchResultsPage: React.FC = () => {
   const [selectedSort, setSelectedSort] = useState("best");
   const [showMockNotification, setShowMockNotification] = useState(false);
 
-  // Get search data from navigation state
   const { searchData, originData, destinationData } = location.state || {};
 
   useEffect(() => {
-    // If no search data, redirect to home
     if (!searchData || !originData || !destinationData) {
       navigate("/");
       return;
     }
 
-    // Perform search
     const performSearch = async () => {
       try {
         await search(searchData, originData, destinationData);
       } catch (err) {
-        // If search fails and we get mock data, show notification
         setShowMockNotification(true);
       }
     };
@@ -74,7 +69,6 @@ export const SearchResultsPage: React.FC = () => {
           flexDirection: { xs: "column", md: "row" },
         }}
       >
-        {/* Filters Sidebar */}
         <Box
           sx={{
             width: { xs: "100%", md: "280px" },
@@ -87,7 +81,6 @@ export const SearchResultsPage: React.FC = () => {
           />
         </Box>
 
-        {/* Results */}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <FlightResults
             flights={results}

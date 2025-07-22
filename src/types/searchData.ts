@@ -1,5 +1,3 @@
-import { Dayjs } from "dayjs";
-
 export type FlightClass = "economy" | "premium_economy" | "business" | "first";
 export type TripType = "One-way" | "Round-trip";
 export interface PassengersDataInterface {
